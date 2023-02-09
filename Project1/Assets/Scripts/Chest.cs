@@ -6,7 +6,17 @@ public class Chest : MonoBehaviour
 {
     #region GameObjects
     public Transform healthPackPrefab;
+    public GameObject text;
     #endregion 
+
+    public void ToggleOnText()
+    {
+        text.SetActive(true);
+    }
+    public void ToggleOffText()
+    {
+        text.SetActive(false);
+    }
 
     public void Interact()
     {

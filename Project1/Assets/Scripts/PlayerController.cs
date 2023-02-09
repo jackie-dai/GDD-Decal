@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     #region Attack Variables
     float attackCooldown = 0.5f;
-    float hitBoxTiming = 0.25f;
+    float hitBoxTiming = 0.15f;
     float attackRange = 0.25f;
     bool canAttack = true;
     #endregion
@@ -161,8 +161,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-
 
     void UpdateHPSlider()
     {

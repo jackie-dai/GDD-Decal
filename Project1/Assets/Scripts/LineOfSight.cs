@@ -8,7 +8,24 @@ public class LineOfSight : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GetComponentInParent<Enemy>().player = other.transform;
+            if (transform.parent.tag == "Enemy")
+            {
+                GetComponentInParent<Enemy>().player = other.transform;
+            }
+            
+            if (transform.parent.tag == "Chest")
+            {
+                transform.parent.GetComponent<Chest>().ToggleOnText();
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (transform.parent.tag == "Chest")
+        {
+
+            transform.parent.GetComponent<Chest>().ToggleOffText();
         }
     }
 }
