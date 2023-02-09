@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     #region Components 
     private Rigidbody2D rb;
     private AudioManager audio;
+    private GameObject gameManager;
     #endregion
     #region Movement Variables 
     float movementSpeed = 5f;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animationController = GetComponent<Animator>();
         audio = FindObjectOfType<AudioManager>();
+        gameManager = GameObject.FindWithTag("GameController");
         currentHealth = maxHealth;
         UpdateHPSlider();
     }
@@ -49,6 +51,10 @@ public class PlayerController : MonoBehaviour
             Attack();
             canAttack = false;
         } 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Interact();
+        }
         Move();
     }
 
@@ -132,7 +138,8 @@ public class PlayerController : MonoBehaviour
     void TriggerDeath()
     {
         audio.Play("PlayerDeath");
-        Destroy(this.gameObject);
+        gameManager.GetComponent<GameManager>().LoseGame();
+        Destroy(this.gameObject, 0.5f);
     }
 
     public void Heal(float value)
@@ -143,15 +150,24 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    void Interact()
+    {
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(rb.position + playerOrientation, new Vector2(0.5f, 0.5f), 0.5f, Vector2.zero, 0f);
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.transform.tag == "Chest")
+            {
+                hit.transform.GetComponent<Chest>().Interact();
+            }
+        }
+    }
+
+
+
     void UpdateHPSlider()
     {
         HPSlider.value = currentHealth / maxHealth;
     }
-    /*
-    public static void DrawBoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance, Color color)
-    {
-        Quaternion angle_z = Quaternion.Euler(0f, 0f, angle);
-        DrawBoxCast2D(origin, size / 2f, direction, angle_z, distance, color);
-    }
-    */
+
+
 }
