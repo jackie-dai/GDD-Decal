@@ -21,26 +21,53 @@ public class SpawnManager : MonoBehaviour
     * - Implement the spawning using a coroutine instead of this using this way
     * - Make the spawn rate ramp up (may require creating a mutator in the EnemySpawnInfo struct)
     */
-   private float[] m_EnemySpawnTimers;
-   #endregion
+    private float[] m_EnemySpawnTimers;
+    #endregion
 
-   #region First Time Initialization and Set Up
-   private void Awake()
-   {
-      // Initialize the spawn timers using the FirstSpawnTime variable
+    #region First Time Initialization and Set Up
+    private void Awake()
+    {
+        m_EnemySpawnTimers = new float[m_EnemyTypes.Length];
+        // Initialize the spawn timers using the FirstSpawnTime variable
+        for (int i = 0; i < m_EnemyTypes.Length; i++)
+        {
+            m_EnemySpawnTimers[i] = m_EnemyTypes[i].FirstSpawnTime;
+        }
    }
    #endregion
 
    #region Main Updates
    private void Update()
    {
-      // You may want to use either a foreach or for loop (for scalability)
-      // Check if its time to spawn a particular enemy
-      // If it is, just spawn the enemy using Instantiate(m_EnemyTypes[i].EnemyPrefab)
-         // Make sure to reset the timer back to the appropriate value based on SpawnRate
-      // Else, increase the timer using Time.deltaTime
+        // You may want to use either a foreach or for loop (for scalability)
+        // Check if its time to spawn a particular enemy
+        // If it is, just spawn the enemy using Instantiate(m_EnemyTypes[i].EnemyPrefab)
+        // Make sure to reset the timer back to the appropriate value based on SpawnRate
+        // Else, increase the timer using Time.deltaTime
+        for (int i = 0; i < m_EnemySpawnTimers.Length; i++)
+        {
+            Debug.Log(i);
+            if (m_EnemySpawnTimers[i] <= 0)
+            {
+                Instantiate(m_EnemyTypes[i].EnemyPrefab);
+                m_EnemySpawnTimers[i] = m_EnemyTypes[i].SpawnRate;
+            }
+            m_EnemySpawnTimers[i] -= Time.deltaTime;
+        }
    }
-   #endregion
+    #endregion
+
+    #region Spawn Functions
+    IEnumerator SpawnRoutine()
+    {
+        yield return new WaitForSeconds(1f); // FirstSpawntTime
+        while (true)
+        {
+            // Instantiate
+            yield return new WaitForSeconds(1f); //wait spawn rate
+        }
+    }
+    #endregion 
 }
 
 [System.Serializable]

@@ -6,9 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(ParticleSystem))] // Used because I call GetComponent<ParticleSystem>()
 public class MouseInput : MonoBehaviour
 {
-   #region Cached Components
-   // The effects that should be played whenever the player clicks somewhere.
-   private ParticleSystem m_Particles;
+    #region Score Variables
+    private int enemyValue = 100;
+    private int bombValue = -100;
+    #endregion
+    #region Cached Components
+    // The effects that should be played whenever the player clicks somewhere.
+    private ParticleSystem m_Particles;
    #endregion
 
    #region First Time Initialization and Set Up
@@ -37,6 +41,15 @@ public class MouseInput : MonoBehaviour
          {
             GameObject target = allOverlaps[i].gameObject;
             //Do your thing here.
+            if (target.tag == "Fruit")
+                {
+                    Score.Singleton.AddScore(enemyValue);
+                }
+            if (target.tag == "Bomb")
+                {
+                    Score.Singleton.AddScore(bombValue);
+                }
+            Destroy(target);
          }
       }
    }
