@@ -43,14 +43,22 @@ public class ShooterScript : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D coll) {
+	void OnTriggerEnter2D(Collider2D other) {
         //TASK 3
         //HINT: Use coll.gameObject to get a reference to coll's GameObject
+		if (isPlayer(other.gameObject))
+        {
+			playerList.Add(other.gameObject);
+        }
 	}
 
-	void OnTriggerExit2D(Collider2D coll) {
-        //TASK 3
-    }
+	void OnTriggerExit2D(Collider2D other) {
+		//TASK 3
+		if (isPlayer(other.gameObject))
+		{
+			playerList.Remove(other.gameObject);
+		}
+	}
 
 	//Returns whether or not the Game Object is the Player Character
 	bool isPlayer(GameObject obj) {

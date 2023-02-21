@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CircleMovement : MonoBehaviour {
     Rigidbody2D playerRigidbody;
-
+    [SerializeField]
+    private float movementSpeed = 5f;
     float xAxis;
     float yAxis;
 
@@ -18,7 +19,7 @@ public class CircleMovement : MonoBehaviour {
 		xAxis = Input.GetAxisRaw("Horizontal");
         yAxis = Input.GetAxisRaw("Vertical");
 
-        moveFunction1();
+        moveFunction3();
 
 	}
 
@@ -29,11 +30,11 @@ public class CircleMovement : MonoBehaviour {
 
     void moveFunction2() {
         Vector2 movementVector = new Vector2(xAxis, yAxis);
-        playerRigidbody.MovePosition(playerRigidbody.position + movementVector);
+        playerRigidbody.MovePosition(playerRigidbody.position + movementVector * Time.deltaTime);
     }
 
     void moveFunction3() {
         Vector2 movementVector = new Vector2(xAxis, yAxis);
-        playerRigidbody.velocity = movementVector;
+        playerRigidbody.velocity = movementVector * movementSpeed;
     }
 }

@@ -39,7 +39,16 @@ public class PlayerControllerTask2 : MonoBehaviour {
 	}
 
 	bool canJump() {
-        return false;
+		return feetContact;
 		//TASK 2
+	}
+
+	public void SetJumpToFalse()
+    {
+		feetContact = false;
+    }
+	public void ResetJump()
+	{
+		feetContact = true;
 	}
 }
