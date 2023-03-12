@@ -19,5 +19,4 @@ public class HealthPack : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
 }
